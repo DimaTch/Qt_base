@@ -3,11 +3,17 @@
 #include <QDebug>
 
 Home::Home(QWidget *parent) :
-    QWidget(parent),
+    QWidget(parent), state(false),
     ui(new Ui::Home)
 {
     ui->setupUi(this);
+
+    ptr_tcpsocket = new QTcpSocket();
+
+
+
     connect(ui->pushButton,SIGNAL(clicked(bool)),this,SLOT(btn_clk()));
+    connect(ptr_tcpsocket, SIGNAL(connected()),SLOT(slotConnected()));
 }
 
 void Home::paintEvent(QPaintEvent* event){
@@ -22,14 +28,26 @@ void Home::paintEvent(QPaintEvent* event){
     painter.end();
 }
 
-void Home::btn_clk(){
-    if (state == false) {
-        state = true;
-    }
-    else {
-        state = false;
-    }
+void Home::slotConnected(){
+    state = true;
     repaint();
+
+}
+void Home::btn_clk(){
+
+    strHost = ui->lineEdit->text();
+    nPort = ui->lineEdit_2->text().toInt();
+    ptr_tcpsocket->connectToHost(strHost, nPort);
+
+
+//    if (state == false) {
+//        state = true;
+//    }
+//    else {
+//        state = false;
+//    }
+//    repaint();
+
 }
 
 

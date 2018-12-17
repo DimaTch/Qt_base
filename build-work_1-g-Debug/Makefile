@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../work_1 -I. -isystem /usr/include/i386-linux-gnu/qt5 -isystem /usr/include/i386-linux-gnu/qt5/QtWidgets -isystem /usr/include/i386-linux-gnu/qt5/QtGui -isystem /usr/include/i386-linux-gnu/qt5/QtCore -I. -isystem /usr/include/libdrm -I. -I/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I../work_1 -I. -isystem /usr/include/i386-linux-gnu/qt5 -isystem /usr/include/i386-linux-gnu/qt5/QtWidgets -isystem /usr/include/i386-linux-gnu/qt5/QtGui -isystem /usr/include/i386-linux-gnu/qt5/QtNetwork -isystem /usr/include/i386-linux-gnu/qt5/QtCore -I. -isystem /usr/include/libdrm -I. -I/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = work_11.0.0
 DISTDIR = /home/dimat/Dropbox/Qt_base/build-work_1-g-Debug/.tmp/work_11.0.0
 LINK          = g++
 LFLAGS        = 
-LIBS          = $(SUBLIBS) -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -109,6 +109,7 @@ DIST          = /usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		../work_1/.qmake.stash \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -195,6 +196,7 @@ Makefile: ../work_1/work_1.pro /usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qma
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -217,6 +219,7 @@ Makefile: ../work_1/work_1.pro /usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qma
 		../work_1/work_1.pro \
 		/usr/lib/i386-linux-gnu/libQt5Widgets.prl \
 		/usr/lib/i386-linux-gnu/libQt5Gui.prl \
+		/usr/lib/i386-linux-gnu/libQt5Network.prl \
 		/usr/lib/i386-linux-gnu/libQt5Core.prl
 	$(QMAKE) -o Makefile ../work_1/work_1.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_pre.prf:
@@ -273,6 +276,7 @@ Makefile: ../work_1/work_1.pro /usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qma
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/i386-linux-gnu/qt5/mkspecs/features/default_pre.prf:
@@ -295,6 +299,7 @@ Makefile: ../work_1/work_1.pro /usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++/qma
 ../work_1/work_1.pro:
 /usr/lib/i386-linux-gnu/libQt5Widgets.prl:
 /usr/lib/i386-linux-gnu/libQt5Gui.prl:
+/usr/lib/i386-linux-gnu/libQt5Network.prl:
 /usr/lib/i386-linux-gnu/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../work_1/work_1.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -351,7 +356,7 @@ compiler_moc_header_clean:
 moc_home.cpp: ../work_1/home.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++ -I/home/dimat/Dropbox/Qt_base/work_1 -I/usr/include/i386-linux-gnu/qt5 -I/usr/include/i386-linux-gnu/qt5/QtWidgets -I/usr/include/i386-linux-gnu/qt5/QtGui -I/usr/include/i386-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/i386-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/i686-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/i686-linux-gnu/7/include-fixed -I/usr/include/i386-linux-gnu -I/usr/include ../work_1/home.h -o moc_home.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++ -I/home/dimat/Dropbox/Qt_base/work_1 -I/usr/include/i386-linux-gnu/qt5 -I/usr/include/i386-linux-gnu/qt5/QtWidgets -I/usr/include/i386-linux-gnu/qt5/QtGui -I/usr/include/i386-linux-gnu/qt5/QtNetwork -I/usr/include/i386-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/i386-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/i686-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/i686-linux-gnu/7/include-fixed -I/usr/include/i386-linux-gnu -I/usr/include ../work_1/home.h -o moc_home.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:

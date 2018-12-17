@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QPainter>
+#include <QtNetwork>
+
 
 
 namespace Ui {
@@ -20,13 +22,21 @@ public:
 private:
     Ui::Home *ui;
 
-    bool state = false;
+    bool state;
     QPainter painter;
+    QTcpSocket* ptr_tcpsocket;
+    QString strHost;
+    int nPort;
+
     void paintEvent(QPaintEvent *event);
+
+
+
 
 
 private slots:
     void btn_clk();
+    void slotConnected();
 };
 
 #endif // HOME_H
